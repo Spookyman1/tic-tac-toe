@@ -1,3 +1,10 @@
 .board {
     margin-top: 10vh;
 }
+.row {
+    display: flex   ;
+    justify-content: center;
+}
+.row img {
+    width:10vw;
+}
