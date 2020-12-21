@@ -1,14 +1,15 @@
 import * as React from 'react';
 import Board from './Board';
-import {Value} from './GameState';
-const temp = Array<Value>(9).fill(null);
-const something = () => {
-    console.log("literally nothing");
-}
+import {useGameState, Value} from './GameState';
+
 const Game = () => {
+    const {
+    handleClick,
+    current,
+} = useGameState();
     return (
         <div>
-            <Board board = {temp} onClick = {something}/>
+            <Board board = {current} onClick = {handleClick}/>
          </div>   
         );
 }

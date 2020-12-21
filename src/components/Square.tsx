@@ -9,11 +9,16 @@ export type SquareProps = {
     onClick: ()=> void;
     position : Number;
 };
-
+// remember to set as getState()
 const Square = (props : SquareProps) => {
+    const getState = () => {
+        if(props.value === 'X') {return X;}
+        if(props.value === 'O') {return O;}
+        if(props.value === null) {return emptySlot;}
+}
     return (
         <div>   
-            <img src = {states[0]} alt='' onClick = {props.onClick} />
+            <img src = {getState()} alt='' onClick = {props.onClick} />
         </div>
     )
 }
