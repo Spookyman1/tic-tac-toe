@@ -28,6 +28,9 @@ const Board = ({board,onClick} : BoardProps) => {
             <div className = 'row'>
             {[6,7,8].map(index=><Square {...createProps(index)}/>)}
             </div>
+            <div>
+                
+            </div>
         </div>
     )
 }
