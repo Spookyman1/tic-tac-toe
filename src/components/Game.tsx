@@ -8,7 +8,8 @@ const Game = () => {
     handleClick,
     current,
     winner,
-    xIsNext
+    xIsNext,
+    resetBoard  ,  
 } = useGameState();
     return (
         <div className = 'container'>
@@ -22,7 +23,7 @@ const Game = () => {
                 {winner === 'TIE' && <h3>its a tie!</h3>}
             </div>
             <div className = 'component'>
-                <Reset/>
+                <Reset onClick={resetBoard}/>
             </div>
         </div>
         );

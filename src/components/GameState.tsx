@@ -1,6 +1,10 @@
 import {useState} from 'react';
 export type Value = 'X' | 'O' | null | 'TIE';
 export type BoardState = Value[];
+export type GameState = {
+  history: BoardState[],
+  step: number,
+}
 const initBoard = () => Array<Value>(9).fill(null);
 
 const checkWinner = (boardState: BoardState) => {
@@ -29,10 +33,7 @@ const checkWinner = (boardState: BoardState) => {
     }
     return 'TIE';
 }
-export type GameState = {
-  history: BoardState[],
-  step: number,
-}
+
 export const useGameState = () => {
     const [gameState,setGameState] = useState<GameState>({
        history: [initBoard()],
@@ -54,11 +55,19 @@ export const useGameState = () => {
             step : history.length - 1,
         });
     }
+    const resetBoard = () => {
+        const history = [initBoard()];
+        setGameState({
+            history: history,
+            step : 0, 
+        });
+    }
     return {
         handleClick,
         current,
         winner,
         xIsNext,
+        resetBoard,
     };
 }
  
