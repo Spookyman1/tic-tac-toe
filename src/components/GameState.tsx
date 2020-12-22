@@ -46,7 +46,9 @@ export const useGameState = () => {
     const handleClick = (square: number) => {
         const history = gameState.history.slice(0, gameState.step + 1);
         const currState = history[history.length - 1];
-        if (checkWinner(currState) || currState[square]) {
+        if (checkWinner(currState)
+            || currState[square]
+            || gameState.step !== gameState.history.length - 1) {
             return;
         }
         const newBoardState = currState.slice();
