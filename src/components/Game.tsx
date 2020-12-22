@@ -17,6 +17,10 @@ const Game = () => {
     return (
         <div className='container'>
             <div className='component'>
+                {xIsNext && <h2>X Turn!</h2>}
+                {!xIsNext && <h2>O Turn!</h2>}
+            </div>
+            <div className='component'>
                 <Board board={current} onClick={handleClick} />
             </div>
             <div className='component'>

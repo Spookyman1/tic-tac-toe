@@ -40,7 +40,7 @@ export const useGameState = () => {
         step: 0,
     })
     const current = gameState.history[gameState.step];
-    const xIsNext = (gameState.step % 2) === 0;
+    const xIsNext = ((gameState.history.length - 1) % 2) === 0;
     const winner = checkWinner(current);
 
     const handleClick = (square: number) => {
