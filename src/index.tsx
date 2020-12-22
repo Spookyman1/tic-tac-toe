@@ -5,9 +5,8 @@ import Game from './components/Game';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <Game />
-  </React.StrictMode>,
+  <Game />
+  ,
   document.getElementById('root')
 );
 
