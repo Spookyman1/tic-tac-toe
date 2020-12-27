@@ -1,23 +1,32 @@
 import { useState } from 'react';
-export type Value = 'X' | 'O' | null | 'TIE';
+export enum Value {
+    X = 'X',
+    O = 'O',
+    TIE = 'TIE',
+    EMPTY = 'empty',
+};
+export enum nowPlaying {
+    X = 'X',
+    O = 'O',
+};
 export type BoardState = Value[];
 export type GameState = {
     history: BoardState[],
     step: number,
 }
-const initBoard = () => Array<Value>(9).fill(null);
+const winningCombinations = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6]
+];
 
-const checkWinner = (boardState: BoardState) => {
-    const winningCombinations = [
-        [0, 1, 2],
-        [3, 4, 5],
-        [6, 7, 8],
-        [0, 3, 6],
-        [1, 4, 7],
-        [2, 5, 8],
-        [0, 4, 8],
-        [2, 4, 6]
-    ];
+const initBoard = () => Array<Value>(9).fill(Value.EMPTY);
+const checkGameStatus = (boardState: BoardState) => {
     for (let i = 0; i < winningCombinations.length; i++) {
         const [a, b, c] = winningCombinations[i];
         if (boardState[a]
@@ -26,12 +35,10 @@ const checkWinner = (boardState: BoardState) => {
             return boardState[a];
         }
     }
-    for (let i = 0; i < boardState.length; i++) {
-        if (boardState[i] === null) {
-            return null;
-        }
-    }
-    return 'TIE';
+    const isEmpty = (element: Value) => element === Value.EMPTY;
+    if (boardState.some(isEmpty))
+        return Value.EMPTY;
+    return Value.TIE;
 }
 
 export const useGameState = () => {
@@ -40,19 +47,20 @@ export const useGameState = () => {
         step: 0,
     })
     const current = gameState.history[gameState.step];
-    const xIsNext = ((gameState.history.length - 1) % 2) === 0;
-    const winner = checkWinner(current);
+    const nextPlayer = ((gameState.history.length - 1) % 2)
+        === 0 ? nowPlaying.X : nowPlaying.O;
+    const gameStatus = checkGameStatus(current);
 
     const handleClick = (square: number) => {
         const history = gameState.history.slice(0, gameState.step + 1);
         const currState = history[history.length - 1];
-        if (checkWinner(currState)
-            || currState[square]
+        if (checkGameStatus(currState) !== Value.EMPTY
+            || currState[square] !== Value.EMPTY
             || gameState.step !== gameState.history.length - 1) {
             return;
         }
         const newBoardState = currState.slice();
-        newBoardState[square] = (gameState.step % 2) === 0 ? 'X' : 'O';
+        newBoardState[square] = (gameState.step % 2) === 0 ? Value.X : Value.O;
         history.push(newBoardState);
         setGameState({
             history: history,
@@ -71,8 +79,8 @@ export const useGameState = () => {
     return {
         handleClick,
         current,
-        winner,
-        xIsNext,
+        gameStatus,
+        nextPlayer,
         resetBoard,
         gameState,
     };

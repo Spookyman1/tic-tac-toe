@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { GameState } from './GameState';
+import { GameState } from '../../GameState/GameState';
 export const useHistoryState = (liveState: GameState) => {
     const [stateChanger, setHistoryState] = useState<GameState>({
         history: liveState.history,

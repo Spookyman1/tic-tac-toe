@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Button from '@material-ui/core/Button';
-import { BoardState } from './GameState';
+import { BoardState } from '../GameState/GameState';
 export type HistoryLogProps = {
     history: BoardState[];
     jumpTo: (step: number) => void;
@@ -8,7 +8,7 @@ export type HistoryLogProps = {
 const HistoryLog = ({ history, jumpTo }: HistoryLogProps) => {
     return (
         <ol>
-            {history.map((_, index) => {
+            {history.map((step, index) => {
                 return (
                     <li key={index}>
                         <button onClick={() => jumpTo(index)}>
