@@ -67,13 +67,6 @@ export const useGameState = () => {
             step: 0,
         });
     }
-    const jumpTo = (step: number) => {
-        console.log(gameState.history);
-        setGameState({
-            history: gameState.history,
-            step,
-        });
-    };
 
     return {
         handleClick,
@@ -81,7 +74,6 @@ export const useGameState = () => {
         winner,
         xIsNext,
         resetBoard,
-        jumpTo,
         gameState,
     };
 }

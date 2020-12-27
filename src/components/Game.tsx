@@ -4,6 +4,7 @@ import { useGameState, Value } from './GameState';
 import Reset from './Reset';
 import './GameDesign.css';
 import HistoryLog from './HistoryLog';
+import { useHistoryState } from './HistoryState';
 const Game = () => {
     const {
         handleClick,
@@ -11,9 +12,9 @@ const Game = () => {
         winner,
         xIsNext,
         resetBoard,
-        jumpTo,
         gameState,
     } = useGameState();
+    const jumpTo = useHistoryState(gameState);
     return (
         <div className='container'>
             <div className='component'>
