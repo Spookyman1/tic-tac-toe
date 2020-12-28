@@ -6,5 +6,8 @@ export const useStyles = makeStyles({
     row : {
         display : 'flex',
         justifyContent : 'center',
-    }
+    },
+    image : {
+        width : '10vw',
+    },
 });

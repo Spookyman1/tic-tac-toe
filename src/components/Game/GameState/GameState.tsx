@@ -26,15 +26,13 @@ const winningCombinations = [
 ];
 
 const initBoard = () => Array<Value>(9).fill(Value.EMPTY);
+
 const checkGameStatus = (boardState: BoardState) => {
-    for (let i = 0; i < winningCombinations.length; i++) {
-        const [a, b, c] = winningCombinations[i];
-        if (boardState[a]
-            && boardState[a] === boardState[b]
-            && boardState[a] === boardState[c]) {
-            return boardState[a];
-        }
-    }
+    const isWon = (element: Array<number>) => boardState[element[0]]
+        && boardState[element[0]] === boardState[element[1]]
+        && boardState[element[0]] === boardState[element[2]];
+    const winningCombo = winningCombinations.find(isWon);
+    if (winningCombo !== undefined) return boardState[winningCombo[0]];
     const isEmpty = (element: Value) => element === Value.EMPTY;
     if (boardState.some(isEmpty))
         return Value.EMPTY;
