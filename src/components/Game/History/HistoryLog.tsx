@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { BoardState } from '../GameState/GameState';
-import { HistoryState } from '../HistoryStateV';
+import { HistoryState } from './HistoryState';
 
 export type HistoryLogProps = {
     history: HistoryState;

@@ -3,8 +3,8 @@ import * as React from 'react';
 import Square from './Square/Square';
 
 import { useStyles } from './BoardStyles';
-import { BoardState } from '../GameState/GameStateV';
-import { State } from '../HistoryStateV';
+import { BoardState } from '../GameState/GameState';
+import { State } from '../History/HistoryState';
 
 type BoardProps = {
   board: BoardState;

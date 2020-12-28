@@ -5,12 +5,12 @@ import Reset from './Reset/Reset';
 import HistoryLog from './History/HistoryLog';
 
 //import { useGameState, } from './GameState/GameState';
-import { useGameState, } from './GameState/GameStateV';
+import { useGameState, } from './GameState/GameState';
 import { useStyles } from './GameStyles'
 //import { useHistoryState } from './History/HistoryState/HistoryState;
-import { useHistoryState } from './HistoryStateV';
+import { useHistoryState } from './History/HistoryState';
 //import { Value } from './GameState/GameState';
-import { Value, BoardState } from './GameState/GameStateV'
+import { Value, BoardState } from './GameState/GameState'
 const Game = () => {
     const classes = useStyles({});
     const {
