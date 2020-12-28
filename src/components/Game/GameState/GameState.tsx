@@ -1,20 +1,20 @@
 import { useState } from 'react';
-
+import { Playable, State } from '../History/HistoryState'
 export enum Value {
     X = 'X',
     O = 'O',
     TIE = 'TIE',
     EMPTY = 'empty',
 };
-export enum nowPlaying {
+export enum NowPlaying {
     X = 'X',
     O = 'O',
 };
-export type BoardState = Value[];
-export type GameState = {
-    history: BoardState[],
-    step: number,
+export type BoardState = {
+    currentState: State;
+    isPlayable: Playable;
 }
+
 const winningCombinations = [
     [0, 1, 2],
     [3, 4, 5],
@@ -28,57 +28,56 @@ const winningCombinations = [
 
 const initBoard = () => Array<Value>(9).fill(Value.EMPTY);
 
-const checkGameStatus = (boardState: BoardState) => {
-    const isWon = (element: Array<number>) => boardState[element[0]]
-        && boardState[element[0]] === boardState[element[1]]
-        && boardState[element[0]] === boardState[element[2]];
-    const winningCombo = winningCombinations.find(isWon);
-    if (winningCombo !== undefined) 
-        return boardState[winningCombo[0]];
+const checkGameStatus = (boardState: BoardState, nowPlaying: NowPlaying) => {
+    const isWon = (element: Array<number>) => boardState.currentState[element[0]] !== Value.EMPTY
+        && boardState.currentState[element[0]] === boardState.currentState[element[1]]
+        && boardState.currentState[element[0]] === boardState.currentState[element[2]];
+    if (winningCombinations.some(isWon)) {
+        return nowPlaying === NowPlaying.O ? Value.X : Value.O;
+    }
     const isEmpty = (element: Value) => element === Value.EMPTY;
-    if (boardState.some(isEmpty))
+    if (boardState.currentState.some(isEmpty))
         return Value.EMPTY;
     return Value.TIE;
 }
 
 export const useGameState = () => {
-    const [gameState, setGameState] = useState<GameState>({
-        history: [initBoard()],
-        step: 0,
+    const [gameState, setGameState] = useState<BoardState>({
+        currentState: initBoard(),
+        isPlayable: Playable.playable,
     })
-    const current = gameState.history[gameState.step];
-    const nextPlayer = ((gameState.history.length - 1) % 2)
-        === 0 ? nowPlaying.X : nowPlaying.O;
-    const gameStatus = checkGameStatus(current);
-
+    const findNextPlayer = () => {
+        let numOfMoves = 0;
+        for (let i = 0; i < gameState.currentState.length; i++) {
+            if (gameState.currentState[i] !== Value.EMPTY) numOfMoves++;
+        }
+        return numOfMoves % 2 === 0;
+    }
+    const nextPlayer = findNextPlayer() ? NowPlaying.X : NowPlaying.O;
+    const gameStatus = checkGameStatus(gameState, nextPlayer);
     const handleClick = (square: number) => {
-        const history = gameState.history.slice(0, gameState.step + 1);
-        const currState = history[history.length - 1];
-        if (checkGameStatus(currState) !== Value.EMPTY
-            || currState[square] !== Value.EMPTY
-            || gameState.step !== gameState.history.length - 1) {
+        if (gameStatus !== Value.EMPTY
+            || gameState.currentState[square] !== Value.EMPTY
+            || gameState.isPlayable === Playable.unplayable) {
             return;
         }
-        const newBoardState = currState.slice();
-        newBoardState[square] = (gameState.step % 2) === 0 ? Value.X : Value.O;
-        history.push(newBoardState);
+        const newBoardState = gameState.currentState.slice();
+        newBoardState[square] = (nextPlayer === NowPlaying.X) ? Value.X : Value.O;
+        console.log(newBoardState);
         setGameState({
-            history: history,
-            step: history.length - 1,
+            currentState: newBoardState,
+            isPlayable: gameState.isPlayable,
         });
+        console.log("sent: " + gameState.currentState);
     }
-
     const resetBoard = () => {
-        const history = [initBoard()];
         setGameState({
-            history: history,
-            step: 0,
+            currentState: initBoard(),
+            isPlayable: Playable.playable,
         });
     }
-
     return {
         handleClick,
-        current,
         gameStatus,
         nextPlayer,
         resetBoard,
