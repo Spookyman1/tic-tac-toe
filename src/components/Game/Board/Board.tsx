@@ -1,16 +1,17 @@
 import * as React from 'react';
 
 import Square from './Square/Square';
+
 import { useStyles } from './BoardStyles';
-import { BoardState } from '../GameState/GameState';
-import { SquareProps } from './Square/Square';
+import { BoardState } from '../GameState/GameStateV';
+import { State } from '../HistoryStateV';
 
 type BoardProps = {
   board: BoardState;
-  onClick: (square: number) => void;
+  boardUpdate: (square: number) => void;
 };
 
-const Board = ({ board, onClick }: BoardProps) => {
+const Board = ({ board, boardUpdate }: BoardProps) => {
   const classes = useStyles({});
   const row = [0, 1, 2];
   const column = [0, 1, 2];
@@ -21,8 +22,10 @@ const Board = ({ board, onClick }: BoardProps) => {
           {column.map(column_index =>
             <Square
               position={row_index * row.length + column_index}
-              value={board[row_index * row.length + column_index]}
-              onClick={() => onClick(row_index * row.length + column_index)} />)}
+              value={board.currentState[row_index * row.length + column_index]}
+              onClick={() => {
+                boardUpdate(row_index * row.length + column_index);
+              }} />)}
 
         </div>)}
     </div>

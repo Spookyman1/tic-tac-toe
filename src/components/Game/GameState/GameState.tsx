@@ -1,4 +1,5 @@
 import { useState } from 'react';
+
 export enum Value {
     X = 'X',
     O = 'O',
@@ -32,7 +33,8 @@ const checkGameStatus = (boardState: BoardState) => {
         && boardState[element[0]] === boardState[element[1]]
         && boardState[element[0]] === boardState[element[2]];
     const winningCombo = winningCombinations.find(isWon);
-    if (winningCombo !== undefined) return boardState[winningCombo[0]];
+    if (winningCombo !== undefined) 
+        return boardState[winningCombo[0]];
     const isEmpty = (element: Value) => element === Value.EMPTY;
     if (boardState.some(isEmpty))
         return Value.EMPTY;

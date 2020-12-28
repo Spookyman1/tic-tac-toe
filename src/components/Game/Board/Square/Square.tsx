@@ -1,6 +1,7 @@
-import { makeStyles } from '@material-ui/core';
+
 import { Value } from '../../GameState/GameState';
 import { useStyles } from './SquareStyles';
+
 export type SquareProps = {
     value: Value;
     onClick: () => void;
